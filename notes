@@ -1,0 +1,15 @@
+
+    let response: String = client
+          .post(url)
+          .header("Content-Type", "application/json")
+          .header("Authorization", api_key() )
+          .json(&json_body) // Serialize the JSON body
+          .send()
+          .expect("failed to get response")
+          .text()
+          .expect("failed to get payload");
+
+
+
+    println!("{}", request.messages_to_str());
+    println!("{}", response);

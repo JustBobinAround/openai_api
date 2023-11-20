@@ -25,9 +25,9 @@ pub struct EmbeddingRequest {
 }
 
 impl EmbeddingRequest {
-    pub fn new(input: String) -> EmbeddingRequest {
+    pub fn new<S: Into<String>>(input: S) -> EmbeddingRequest {
         EmbeddingRequest { 
-            input, 
+            input: input.into(),
             model: String::from("text-embedding-ada-002"),
         }
     }

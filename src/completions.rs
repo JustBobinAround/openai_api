@@ -111,10 +111,10 @@ impl CompletionMessage {
         format!("{}:\n{}", self.role, self.content)
     }
 
-    pub fn new(role: String, content: String) -> CompletionMessage {
+    pub fn new<S: Into<String>>(role: String, content: S) -> CompletionMessage {
         CompletionMessage { 
             role, 
-            content
+            content: content.into()
         }
     }
 

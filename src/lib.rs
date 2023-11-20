@@ -1,9 +1,7 @@
 pub mod prelude {
-    pub use crate::assistant;
-    pub use crate::system;
-    pub use crate::user;
-    pub use crate::completions::*;
-    pub use crate::embeddings::*;
+    pub use crate::{assistant, system, user};
+    pub use crate::completions::{CompletionRequest, CompletionResponse};
+    pub use crate::embeddings::{EmbeddingRequest, EmbeddingResponse};
 }
 pub mod completions;
 pub mod embeddings;

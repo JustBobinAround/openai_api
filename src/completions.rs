@@ -4,7 +4,7 @@ use super::key::api_key;
 
 #[derive(Debug)]
 pub struct CompletionError {
-    message: String,
+    pub message: String,
 }
 
 impl CompletionError {
@@ -55,12 +55,10 @@ impl CompletionRequest {
             Ok(response) => { 
                 match response.json() {
                     Ok(response) => {Ok(response)},
-                    Err(_) => { Err(CompletionError::from("Failed to get response")) }
+                    Err(_) => { Err(CompletionError::from("Failed to parse json payload")) }
                 }
             },
-            Err(_) => {
-                Err(CompletionError::from("Failed to parse json payload"))
-            }
+            Err(_) => { Err(CompletionError::from("Failed to get response")) }
         }
     }
 
@@ -88,21 +86,33 @@ pub struct CompletionMessage {
 }
 #[macro_export]
 macro_rules! system {
-    ($msg:expr) => {
-        CompletionMessage::new("system", $msg) 
+    ($msg:literal) => {
+        CompletionMessage::new("system".to_string() ,($msg).to_string())
     };
 }
 #[macro_export]
 macro_rules! assistant{
-    ($msg:expr) => {
-        CompletionMessage::new("assistant", $msg) 
+    ($msg:literal) => {
+        CompletionMessage::new("assistant".to_string() ,($msg).to_string()) 
     };
 }
 #[macro_export]
 macro_rules! user {
-    ($msg:expr) => {
-        CompletionMessage::new("user",$msg) 
+    ($msg:literal) => {
+        CompletionMessage::new("user".to_string() ,($msg).to_string()) 
     };
+}
+#[macro_export]
+macro_rules! new35 {
+    [] => {{
+            CompletionRequest::new35(vec![])
+    }};
+    [$($msg:expr),* ,] => {{
+            CompletionRequest::new35(vec![$($msg),*])
+    }};
+    [$($msg:expr),*] => {{
+            CompletionRequest::new35(vec![$($msg),*])
+    }};
 }
 
 impl CompletionMessage {
@@ -111,10 +121,10 @@ impl CompletionMessage {
         format!("{}:\n{}", self.role, self.content)
     }
 
-    pub fn new<S: Into<String>>(role: String, content: S) -> CompletionMessage {
+    pub fn new(role: String, content: String) -> CompletionMessage {
         CompletionMessage { 
             role, 
-            content: content.into()
+            content
         }
     }
 

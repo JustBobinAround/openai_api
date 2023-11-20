@@ -7,7 +7,7 @@ use super::key::api_key;
 
 #[derive(Debug)]
 pub struct EmbeddingError {
-    message: String,
+    pub message: String,
 }
 
 impl EmbeddingError {

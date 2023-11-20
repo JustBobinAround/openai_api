@@ -48,7 +48,7 @@ library will return the corresponding embeddings.
 #### Example Usage:
 
 ```rust
-use openai_rust::prelude::*;
+use openai_api::prelude::*;
 
 let input_text = String::from("Hello, how are you?");
 let request = EmbeddingRequest::new(input_text);
@@ -70,7 +70,7 @@ match response {
 
 - `reqwest`: A simple HTTP client for Rust.
 - `serde`: A framework for serializing and deserializing Rust data structures efficiently.
-- rayon: This is used for parallel processing of the embedding vectors when comparing distances.
+- `rayon`: This is used for parallel processing of the embedding vectors when comparing distances.
 
 ## Installation
 
@@ -78,17 +78,15 @@ Add the following to your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-reqwest = "0.11"
-serde = "1.0"
-rayon = "1.5"
+openai_api = {git = "https://github.com/JustBobinAround/openai_api.git" }
 ```
 
 ## Usage
 
-1. Import the library into your Rust project:
+1. Most common usages only need the prelude:
 
 ```rust
-use openai_rust::{completion::*, embedding::*};
+use openai_api::prelude::*;
 ```
 
 2. Create requests using the provided structs and methods.

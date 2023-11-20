@@ -103,7 +103,7 @@ macro_rules! user {
     };
 }
 #[macro_export]
-macro_rules! new35 {
+macro_rules! newGPT35 {
     [] => {{
             CompletionRequest::new35(vec![])
     }};

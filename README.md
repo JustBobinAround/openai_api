@@ -20,7 +20,7 @@ use openai_api::prelude::*;
 
 fn main() {
 
-    let request = new35![
+    let request = newGPT35![
         system!("You are a helpful assistant"),
         assistant!("How may I help you today?"),
         user!("What is the meaning of life?")

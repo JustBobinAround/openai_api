@@ -1,7 +1,22 @@
 use rayon::prelude::*;
 use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
+
 use super::key::api_key;
+
+
+#[derive(Debug)]
+pub struct EmbeddingError {
+    message: String,
+}
+
+impl EmbeddingError {
+    fn from(msg: &str) -> EmbeddingError {
+        EmbeddingError {
+            message: String::from(msg)
+        }
+    }
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct EmbeddingRequest {
@@ -17,18 +32,31 @@ impl EmbeddingRequest {
         }
     }
 
-    pub fn get(&self) -> EmbeddingResponse {
+    pub fn get(&self) -> Result<EmbeddingResponse, EmbeddingError> {
         let client = Client::new();
         let url = "https://api.openai.com/v1/embeddings";
-        client
+        let response = client
           .post(url)
           .header("Content-Type", "application/json")
           .header("Authorization", api_key() )
           .json(&self) // Serialize the JSON body
-          .send()
-          .expect("failed to get response")
-          .json()
-          .expect("failed to get payload")
+          .send();
+
+        match response {
+            Ok(response) => {
+                match response.json() {
+                    Ok(response) => {
+                        Ok(response)
+                    },
+                    Err(_) => {
+                        Err(EmbeddingError::from("Failed to parse json payload"))
+                    }
+                }
+            },
+            Err(_) => {
+                Err(EmbeddingError::from("Failed to get response"))
+            }
+        }
     }
 } 
 

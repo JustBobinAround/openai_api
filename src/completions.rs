@@ -2,6 +2,19 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use super::key::api_key;
 
+#[derive(Debug)]
+pub struct CompletionError {
+    message: String,
+}
+
+impl CompletionError {
+    fn from(msg: &str) -> CompletionError {
+        CompletionError {
+            message: String::from(msg)
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ResponseFormat {
     #[serde(rename = "type")]
@@ -28,18 +41,27 @@ impl CompletionRequest {
         }
     }
 
-    pub fn get(&self) -> CompletionResponse {
+    pub fn get(&self) -> Result<CompletionResponse, CompletionError>{
         let client = Client::new();
         let url = "https://api.openai.com/v1/chat/completions";
-        client
-          .post(url)
-          .header("Content-Type", "application/json")
-          .header("Authorization", api_key() )
-          .json(&self) // Serialize the JSON body
-          .send()
-          .expect("failed to get response")
-          .json()
-          .expect("failed to get payload")
+        let response = client
+            .post(url)
+            .header("Content-Type", "application/json")
+            .header("Authorization", api_key() )
+            .json(&self) // Serialize the JSON body
+            .send();
+
+        match response {
+            Ok(response) => { 
+                match response.json() {
+                    Ok(response) => {Ok(response)},
+                    Err(_) => { Err(CompletionError::from("Failed to get response")) }
+                }
+            },
+            Err(_) => {
+                Err(CompletionError::from("Failed to parse json payload"))
+            }
+        }
     }
 
     pub fn messages_to_str(&self) -> String {

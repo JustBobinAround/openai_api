@@ -86,6 +86,24 @@ pub struct CompletionMessage {
     role: String,
     content: String,
 }
+#[macro_export]
+macro_rules! system {
+    ($msg:expr) => {
+        CompletionMessage::new("system", $msg) 
+    };
+}
+#[macro_export]
+macro_rules! assistant{
+    ($msg:expr) => {
+        CompletionMessage::("assistant", $msg) 
+    };
+}
+#[macro_export]
+macro_rules! user {
+    ($msg:expr) => {
+        CompletionMessage::("user",$msg) 
+    };
+}
 
 impl CompletionMessage {
 
@@ -93,24 +111,6 @@ impl CompletionMessage {
         format!("{}:\n{}", self.role, self.content)
     }
 
-    pub fn system(content: String) -> CompletionMessage {
-        CompletionMessage { 
-            role: String::from("system"), 
-            content
-        }
-    }
-    pub fn user(content: String) -> CompletionMessage {
-        CompletionMessage { 
-            role: String::from("user"), 
-            content
-        }
-    }
-    pub fn assistant(content: String) -> CompletionMessage {
-        CompletionMessage { 
-            role: String::from("assistant"), 
-            content
-        }
-    }
     pub fn new(role: String, content: String) -> CompletionMessage {
         CompletionMessage { 
             role, 

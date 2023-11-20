@@ -95,13 +95,13 @@ macro_rules! system {
 #[macro_export]
 macro_rules! assistant{
     ($msg:expr) => {
-        CompletionMessage::("assistant", $msg) 
+        CompletionMessage::new("assistant", $msg) 
     };
 }
 #[macro_export]
 macro_rules! user {
     ($msg:expr) => {
-        CompletionMessage::("user",$msg) 
+        CompletionMessage::new("user",$msg) 
     };
 }
 

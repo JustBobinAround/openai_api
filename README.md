@@ -19,8 +19,8 @@ have been introduced for convenient message creation.
 use openai_rust::completion::{CompletionRequest, system, assistant, user};
 
 let msg1 = user!("You are a helpful assistant");
-let msg2 = assistant!("The meaning of life is...");
-let msg3 = user!("what is the meaning of life?");
+let msg2 = assistant!("How may I help you today?");
+let msg3 = user!("Why does the job market suck?");
 
 let request = CompletionRequest::new35(vec![msg1, msg2, msg3]);
 let response = request.get();

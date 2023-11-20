@@ -16,22 +16,26 @@ have been introduced for convenient message creation.
 #### Example Usage:
 
 ```rust
-use openai_rust::completion::{CompletionRequest, system, assistant, user};
+use openai_api::prelude::*;
 
-let msg1 = user!("You are a helpful assistant");
-let msg2 = assistant!("How may I help you today?");
-let msg3 = user!("Why does the job market suck?");
+fn main() {
 
-let request = CompletionRequest::new35(vec![msg1, msg2, msg3]);
-let response = request.get();
+    let request = new35![
+        system!("You are a helpful assistant"),
+        assistant!("How may I help you today?"),
+        user!("What is the meaning of life?")
+    ];
 
-match response {
-    Ok(response) => {
-        println!("Model response: {}", response.default_choice());
-    },
-    Err(error) => {
-        eprintln!("Error: {}", error.message);
-    },
+    let response = request.get();
+
+    match response {
+        Ok(response) => {
+            println!("Model response: {}", response.default_choice());
+        },
+        Err(error) => {
+            eprintln!("Error: {}", error.message);
+        },
+    }
 }
 ```
 
@@ -44,7 +48,7 @@ library will return the corresponding embeddings.
 #### Example Usage:
 
 ```rust
-use openai_rust::embedding::EmbeddingRequest;
+use openai_rust::prelude::*;
 
 let input_text = String::from("Hello, how are you?");
 let request = EmbeddingRequest::new(input_text);

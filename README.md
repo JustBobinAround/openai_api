@@ -18,10 +18,11 @@ have been introduced for convenient message creation.
 ```rust
 use openai_rust::completion::{CompletionRequest, system, assistant, user};
 
-let message1 = user!("What is the meaning of life?");
-let message2 = assistant!("The meaning of life is...");
+let msg1 = user!("You are a helpful assistant");
+let msg2 = assistant!("The meaning of life is...");
+let msg3 = user!("what is the meaning of life?");
 
-let request = CompletionRequest::new35(vec![message1, message2]);
+let request = CompletionRequest::new35(vec![msg1, msg2, msg3]);
 let response = request.get();
 
 match response {

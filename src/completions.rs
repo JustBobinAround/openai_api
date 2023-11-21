@@ -89,17 +89,26 @@ macro_rules! system {
     ($msg:literal) => {
         CompletionMessage::new("system".to_string() ,($msg).to_string())
     };
+    ($msg:ident) => {
+        CompletionMessage::new("system".to_string() ,$msg)
+    };
 }
 #[macro_export]
 macro_rules! assistant{
     ($msg:literal) => {
         CompletionMessage::new("assistant".to_string() ,($msg).to_string()) 
     };
+    ($msg:ident) => {
+        CompletionMessage::new("assistant".to_string() ,$msg)
+    };
 }
 #[macro_export]
 macro_rules! user {
     ($msg:literal) => {
         CompletionMessage::new("user".to_string() ,($msg).to_string()) 
+    };
+    ($msg:ident) => {
+        CompletionMessage::new("user".to_string() ,$msg)
     };
 }
 #[macro_export]

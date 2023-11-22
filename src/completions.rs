@@ -127,6 +127,10 @@ macro_rules! gpt35 {
 impl CompletionMessage {
 
     pub fn to_string(&self) -> String {
+        self.content.clone()
+    }
+
+    pub fn to_string_with_role(&self) -> String {
         format!("{}:\n{}", self.role, self.content)
     }
 

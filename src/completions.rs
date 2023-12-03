@@ -32,6 +32,14 @@ pub struct CompletionRequest {
 }
 
 impl CompletionRequest {
+    pub fn new35_big(messages: Vec<CompletionMessage>) -> CompletionRequest {
+        CompletionRequest { 
+            model: String::from("gpt-3.5-turbo-16k"), 
+            messages,
+            response_format: None,
+            max_tokens: None,
+        }
+    }
     pub fn new35(messages: Vec<CompletionMessage>) -> CompletionRequest {
         CompletionRequest { 
             model: String::from("gpt-3.5-turbo"), 
@@ -110,6 +118,18 @@ macro_rules! user {
     ($msg:ident) => {
         CompletionMessage::new("user".to_string() ,$msg)
     };
+}
+#[macro_export]
+macro_rules! gpt35_big {
+    [] => {{
+            CompletionRequest::new35_big(vec![])
+    }};
+    [$($msg:expr),* ,] => {{
+            CompletionRequest::new35_big(vec![$($msg),*])
+    }};
+    [$($msg:expr),*] => {{
+            CompletionRequest::new35_big(vec![$($msg),*])
+    }};
 }
 #[macro_export]
 macro_rules! gpt35 {

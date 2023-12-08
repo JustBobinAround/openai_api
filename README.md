@@ -50,6 +50,7 @@ library will return the corresponding embeddings.
 ```rust
 use openai_api::prelude::*;
 
+set_api_key("YOUR API KEY");
 let input_text = String::from("Hello, how are you?");
 let request = EmbeddingRequest::new(input_text);
 let response = request.get();
@@ -71,6 +72,7 @@ match response {
 - `reqwest`: A simple HTTP client for Rust.
 - `serde`: A framework for serializing and deserializing Rust data structures efficiently.
 - `rayon`: This is used for parallel processing of the embedding vectors when comparing distances.
+- `lazy_static`: This is used to statically store the api key for wasm usage.
 
 ## Installation
 

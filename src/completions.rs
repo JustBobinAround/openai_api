@@ -1,4 +1,4 @@
-use reqwest::blocking::Client;
+use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use super::key::api_key;
 
@@ -49,7 +49,7 @@ impl CompletionRequest {
         }
     }
 
-    pub fn get(&self) -> Result<CompletionResponse, CompletionError>{
+    pub async fn get(&self) -> Result<CompletionResponse, CompletionError>{
         let client = Client::new();
         let url = "https://api.openai.com/v1/chat/completions";
         let response = client
@@ -58,15 +58,15 @@ impl CompletionRequest {
             .header("Authorization", api_key() )
             .json(&self) // Serialize the JSON body
             .send();
-
-        match response {
-            Ok(response) => { 
-                match response.json() {
+        match response.await {
+            Ok(response) => {
+                let response = response.json();
+                match response.await {
                     Ok(response) => {Ok(response)},
-                    Err(_) => { Err(CompletionError::from("Failed to parse json payload")) }
+                    Err(_) => {Err(CompletionError::from("Failed to parse JSON Payload"))}
                 }
             },
-            Err(_) => { Err(CompletionError::from("Failed to get response")) }
+            Err(_) => {Err(CompletionError::from("Failed to get response"))}
         }
     }
 

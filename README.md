@@ -80,7 +80,7 @@ Add the following to your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-openai_api = {git = "https://github.com/JustBobinAround/openai_api.git" }
+openai_api = {git = "https://github.com/JustBobinAround/openai_api.git", branch = "WASM"}
 ```
 
 ## Usage
